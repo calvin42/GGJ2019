@@ -7,9 +7,7 @@ public class HealthBar : MonoBehaviour
     
     public int initHealth;
     private int currentHealth;
-    //DEBUG
-    public GameObject heartSprite;
-
+    
     //NO DEBUG
     public GameObject halfHeartSpriteLeft;
     public GameObject halfHeartSpriteRight;
@@ -28,9 +26,9 @@ public class HealthBar : MonoBehaviour
                 spriteToSpawn = halfHeartSpriteRight;
             }
             spawnLeft = !spawnLeft;
-            GameObject go = GameObject.Instantiate(heartSprite);
+            GameObject go = GameObject.Instantiate(spriteToSpawn);
             go.transform.parent = healthBarContainer.transform;
-            go.transform.position = new Vector2(go.transform.localScale.x * i,healthBarContainer.transform.position.y);
+            go.transform.position = new Vector2(.74f* i + healthBarContainer.transform.position.x,healthBarContainer.transform.position.y);
             go.name = (i+1).ToString();
             //Debug.Log(go.name+healthBarContainer.transform.chil)
         }
@@ -41,10 +39,14 @@ public class HealthBar : MonoBehaviour
     }
 
     // Update is called once per frame
-    void decrementHealth(int amount){
+    public void decrementHealth(int amount){
+        Debug.Log("Entro");
         //int amount = 3;
-        if(currentHealth - amount <= 0)
+        if(currentHealth - amount <= 0){
             Debug.Log("Son morto");
+            State.currentLevel = "Cap2_Walk_of_Life";
+            UnityEngine.SceneManagement.SceneManager.LoadScene("Death");
+        }
         else{
         //return 1==1 ? 0:1;
 
@@ -54,11 +56,13 @@ public class HealthBar : MonoBehaviour
             currentHealth = currentHealth-amount;
         }
     }
-    void incrementHealth(int amount){
+    public void incrementHealth(int amount){
 
         
         if(currentHealth <= 0){
             Debug.Log("Morto");
+            State.currentLevel = "Cap2_Walk_of_Life";
+            UnityEngine.SceneManagement.SceneManager.LoadScene("Death");
             return;
         }
 
@@ -78,12 +82,16 @@ public class HealthBar : MonoBehaviour
             leftSide = !leftSide;
             GameObject go = GameObject.Instantiate(spriteToInstantiate);
             go.transform.parent = healthBarContainer.transform;
-            go.transform.position = new Vector2(go.transform.localScale.x * i,healthBarContainer.transform.position.y);
+            go.transform.position = new Vector2(.74f * i,healthBarContainer.transform.localPosition.y);
             go.name = (i+1).ToString();
 
         }
 
         currentHealth = currentHealth + amount;
 
+    }
+
+    public int getCurrentHealth(){
+        return currentHealth;
     }
 }

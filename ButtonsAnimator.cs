@@ -22,6 +22,7 @@ public class ButtonsAnimator : MonoBehaviour
 
     //Sound
     public AudioClip changeSound;
+    public AudioClip selectSound;
     private AudioSource source;
 
     //Anims
@@ -52,8 +53,17 @@ public class ButtonsAnimator : MonoBehaviour
         btnTutorialButton.Select();
         source = this.GetComponent<AudioSource>();
         source.clip = changeSound;
+
     }
     void Update(){
+
+        if(Input.GetButtonDown("Submit") && Input.GetAxisRaw("Submit") == 1 && currentSelection != 3){
+            SceneHandler _sm = GameObject.Find("SceneFaderManager").GetComponent<SceneHandler>();
+            source.clip = selectSound;
+            source.Play();
+            _sm.setIndexScene(currentSelection+1);
+            _sm.triggerExitScene();
+        }
 
         if(Input.GetButtonDown("Vertical") && Input.GetAxisRaw("Vertical") > .05f && currentSelection > 1){
             Debug.Log("Prova");
@@ -111,6 +121,10 @@ public class ButtonsAnimator : MonoBehaviour
             source.Play();
         }
 
+    }
+    
+    public int getCurrentSelection(){
+        return currentSelection;
     }
 
     

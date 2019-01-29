@@ -23,29 +23,30 @@ public class ScreamBar : MonoBehaviour
             StartCoroutine("StartFilling");
         if(fillObject.fillAmount >= 1.0f)
             GameOver();
-            // isFilling = true;
+            //isFilling = true;
         startDefilling -= Time.deltaTime;
-        if (startDefilling - Time.deltaTime < 0){
+        if (startDefilling - Time.deltaTime < 0)
+        {
             startDefilling = 0.1f;
             StartCoroutine("Decrease");
         }
-        
-        // else
-        //     isFilling = false;
+
+        else
+            isFilling = false;
 
         // if(!isDecreasing)
         //     StartCoroutine("StartFilling");
     }
     void GameOver(){
-
+        UnityEngine.SceneManagement.SceneManager.LoadScene("Death");
     }
     IEnumerator StartFilling(){
 
         // while(fillObject.fillAmount < 1.0f){
         fillObject.fillAmount += fillingSpeed*.001f;
         fillObject.color = new Color(fillObject.fillAmount,1-fillObject.fillAmount,0);
-        Debug.Log(fillObject.color);
-        Debug.Log(fillObject.fillAmount);
+        // Debug.Log(fillObject.color);
+        // Debug.Log(fillObject.fillAmount);
         // yield return null;
         // }
         isFilling = false;
